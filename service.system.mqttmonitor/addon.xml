@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon id="service.system.mqttmonitor"
+       name="System MQTT Monitor"
+       version="1.0.3"
+       provider-name="Lehmden">
+
+    <requires>
+        <import addon="xbmc.python" version="3.0.0"/>
+    </requires>
+
+    <extension point="xbmc.service" library="service.py"/>
+
+    <extension point="xbmc.addon.metadata">
+        <summary lang="de_DE">Sendet Systemdaten via MQTT an Home Assistant</summary>
+        <summary lang="en_GB">Sends systemdata via MQTT to Home Assistant</summary>
+        <description lang="de_DE">
+            CPU, RAM, Temperatur,Uptime und weitere Daten werden periodisch per MQTT an Home Assistant gesendet.
+        </description>
+        <description lang="en_GB">
+            CPU, RAM, temperature, Uptime and other data are send to Home Assistant via MQTT.
+        </description>
+        <platform>all</platform>
+		<license>GPL-3.0</license>
+		<forum>https://www.kodinerds.net/thread/81101-system-mqtt-monitor-addon-mit-hilfe-von-ki-erstellt/</forum>
+		<assets>
+			<icon>resources/media/icon.png</icon>
+			<fanart>resources/media/fanart.jpg</fanart>
+		</assets>
+    </extension>
+</addon>
