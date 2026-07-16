@@ -21,7 +21,8 @@
         </description>
         <platform>all</platform>
 		<license>GPL-3.0</license>
-		<forum>https://www.kodinerds.net/thread/81101-system-mqtt-monitor-addon-mit-hilfe-von-ki-erstellt/</forum>
+        <source>https://github.com/cplehmden-ai/system.mqtt.monitor</source>
+		<forum>https://www.kodinerds.net/thread/81117-release-home-assistant-systemmonitor-addon-f%C3%BCr-kodi-21/</forum>
 		<assets>
 			<icon>resources/media/icon.png</icon>
 			<fanart>resources/media/fanart.jpg</fanart>
