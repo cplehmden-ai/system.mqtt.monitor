@@ -72,10 +72,9 @@ class SystemInfo:
         self.last_uptime_total = cache.get("uptime_total")
         self.last_uptime = None
         self.last_cpu = None
-        self.last_load = None
         self.last_mem_used = None
         self.last_res = None
-        self.mem_total = None
+        self.last_mem_total = None
         self.last_disk = None
         self.last_cputemp = None
         self.last_gputemp = None
@@ -99,13 +98,13 @@ class SystemInfo:
         if not values:
             return None
 
-        if KODI_BUSY in text:
-            if self.last_load is not None:
-                return self.last_load
-            return None
+#        if KODI_BUSY in text:
+#            if self.last_load is not None:
+#                return self.last_load
+#            return None
         
-        if KODI_NOT_AVAILABLE in text:
-            return None
+#        if KODI_NOT_AVAILABLE in text:
+#            return None
 
         values = [float(v) for v in values]
         
@@ -120,8 +119,8 @@ class SystemInfo:
             return None
 
         if KODI_BUSY in text:
-            if self.mem_used is not None:
-                return self.mem_used
+            if self.last_mem_used is not None:
+                return self.last_mem_used
             return None
         
         if KODI_NOT_AVAILABLE in text:
@@ -138,8 +137,8 @@ class SystemInfo:
             return None
 
         if KODI_BUSY in text:
-            if self.mem_total is not None:
-                return self.mem_total
+            if self.last_mem_total is not None:
+                return self.last_mem_total
             return None
         
         if KODI_NOT_AVAILABLE in text:
