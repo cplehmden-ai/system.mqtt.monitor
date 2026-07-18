@@ -98,18 +98,12 @@ class SystemInfo:
         if not values:
             return None
 
-#        if KODI_BUSY in text:
-#            if self.last_load is not None:
-#                return self.last_load
-#            return None
-        
-#        if KODI_NOT_AVAILABLE in text:
-#            return None
-
         values = [float(v) for v in values]
         
         log(f"CPU average: {round(sum(values) / len(values), 1)}", debug=True)
         
+        self.last_cpu = round(sum(values) / len(values), 1)
+
         return round(sum(values) / len(values), 1)
 
     def memory_used(self):
@@ -127,6 +121,8 @@ class SystemInfo:
             return None
 
         text = text.replace("%", "").replace(",", ".").strip()
+
+        self.last_mem_used = int(float(text))
 
         return int(float(text))
 
@@ -146,6 +142,8 @@ class SystemInfo:
 
         text = text.replace("MB", "").replace(",", ".").strip()
 
+        self.last_mem_total = int(float(text))    
+        
         return int(float(text))
 
     def cpu_frequency(self):
@@ -168,6 +166,9 @@ class SystemInfo:
             self.last_freq = text
 
         value = float(text.replace("MHz", "").replace(",", ".").strip())
+        
+        self.last_freq = round(value / 1000, 1)
+
         return round(value / 1000, 1)
 
   
@@ -184,6 +185,8 @@ class SystemInfo:
         
         if KODI_NOT_AVAILABLE in temp:
             return None
+
+        self.last_cputemp = int(temp.replace("°C", "").replace(",", ".").strip())
 
         try:
             return int(temp.replace("°C", "").replace(",", ".").strip())
@@ -203,6 +206,8 @@ class SystemInfo:
         
         if KODI_NOT_AVAILABLE in temp:
             return None
+
+        self.last_gputemp = int(temp.replace("°C", "").replace(",", ".").strip())
 
         try:
             return int(temp.replace("°C", "").replace(",", ".").strip())
@@ -250,11 +255,10 @@ class SystemInfo:
             text = self.last_res
 
         else:
-        
-            self.last_res = text    
-
-        vorher, trenner, nachher = text.partition("Hz")
-        neuer_text = vorher + trenner
+    
+            vorher, trenner, nachher = text.partition("Hz")
+            neuer_text = vorher + trenner
+            self.last_res = neuer_text    
 
         return neuer_text
 
@@ -279,10 +283,8 @@ class SystemInfo:
             text = self.last_os
 
         else:
-            
-            self.last_os = text    
-
-        neuer_text = re.sub(r'\s*\(.*?\)', '', text)
+            neuer_text = re.sub(r'\s*\(.*?\)', '', text)          
+            self.last_os = neuer_text       
          
         return neuer_text
 
@@ -305,10 +307,8 @@ class SystemInfo:
             text = self.last_disk
 
         else:
-            
-            self.last_disk = text    
-
-        neuer_text = re.sub(r'[^0-9.,]', '', text)
+            neuer_text = re.sub(r'[^0-9.,]', '', text)            
+            self.last_disk = neuer_text     
          
         return round(int(neuer_text)/1024,1)
 
@@ -376,7 +376,7 @@ class SystemInfo:
         if os.startswith("Windows"):
             return "mdi:microsoft-windows"
 
-        if os.startswith(("LibreELEC", "CoreELEC", "Linux")):
+        if os.startswith(("LibreELEC", "CoreELEC", "Linux", "OSMC")):
             return "mdi:penguin"
 
         if os.startswith(("Android", "Google")):
