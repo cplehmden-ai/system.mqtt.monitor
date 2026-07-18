@@ -2,7 +2,6 @@ import xbmc
 import xbmcaddon
 import sys
 import os
-import time
 
 ADDON = xbmcaddon.Addon(id="service.system.mqttmonitor")
 
@@ -13,15 +12,11 @@ from mqtt_client import MQTTClient
 from system_info import SystemInfo
 from ha_discovery import publish_discovery
 from lib.cache import Cache
-from constants import KODI_NOT_AVAILABLE
 from logger import log
 
 cache = Cache()
 
 monitor = xbmc.Monitor()
-
-def slugify(text):
-    return text.lower().replace(" ", "_")
     
 def get_int_setting(id, default):
     try:
@@ -32,10 +27,10 @@ def get_int_setting(id, default):
 def main():
     log("MQTTMonitor starting")
 
-    for i in range(10):
-        text = xbmc.getInfoLabel("System.CpuFrequency")
-        log(f"{i}: {text}", debug=True)
-        xbmc.sleep(200)
+#    for i in range(10):
+#        text = xbmc.getInfoLabel("System.CpuFrequency")
+#        log(f"{i}: {text}", debug=True)
+#        xbmc.sleep(200)
 
     # Give Kodi enough time to initialize InfoLabels
     if monitor.waitForAbort(10):
@@ -65,7 +60,7 @@ def main():
             break
 
     mqtt.disconnect()
-    log("Service stoped")
+    log("Service stopped")
     
 if __name__ == "__main__":
     main()
