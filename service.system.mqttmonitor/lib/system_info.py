@@ -389,11 +389,7 @@ class SystemInfo:
         if os.startswith(("iOS", "tvOS")):
             return "mdi:apple-ios"
 
-        return "mdi:desktop-classic"
-    
-#    log(f"OS Icon (SystemInfo): {self.os_icon()}", debug=True)
-#    log(f"OS Version (SystemInfo): {self.os_version()}", debug=True)
-#    log(f"IP Adresse (SystemInfo): {self.ip_address()}", debug=True)
+        return "mdi:desktop-classic"  
 
     def collect_device_info(self, addon):
         return {
@@ -419,7 +415,6 @@ class SystemInfo:
         }
     
     def test_labels(self):
-#        time.sleep(2) 
         log(xbmc.getInfoLabel("System.Uptime"), debug=True)
         log(f"Uptime (SystemInfo): {self.uptime()}", debug=True)
         log(xbmc.getInfoLabel("System.TotalUptime"), debug=True)
