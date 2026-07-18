@@ -12,7 +12,7 @@ from constants import (
 
 from logger import log
 
-def get_info_label(label, retries=5):
+def get_info_label(label, retries=10):
 
     for _ in range(retries):
         text = xbmc.getInfoLabel(label)
@@ -147,11 +147,9 @@ class SystemInfo:
         return int(float(text))
 
     def cpu_frequency(self):
-
-        for i in range(10):
-            text = xbmc.getInfoLabel("System.CpuFrequency")
-            xbmc.sleep(200)
-
+        
+        text = get_info_label("System.CpuFrequency")
+        
         if not text:
             if self.last_freq is None:
                 return None
@@ -173,6 +171,7 @@ class SystemInfo:
 
   
     def cpu_temperature(self):
+        
         temp = get_info_label("System.CPUTemperature")
 
         if not temp:
@@ -185,15 +184,15 @@ class SystemInfo:
         
         if KODI_NOT_AVAILABLE in temp:
             return None
-
-        self.last_cputemp = int(temp.replace("°C", "").replace(",", ".").strip())
-
+        
         try:
+            self.last_cputemp = int(temp.replace("°C", "").replace(",", ".").strip())
             return int(temp.replace("°C", "").replace(",", ".").strip())
         except ValueError:
             return None
         
     def gpu_temperature(self):
+        
         temp = get_info_label("System.GPUTemperature")
 
         if not temp:
@@ -207,18 +206,15 @@ class SystemInfo:
         if KODI_NOT_AVAILABLE in temp:
             return None
 
-        self.last_gputemp = int(temp.replace("°C", "").replace(",", ".").strip())
-
         try:
+            self.last_gputemp = int(temp.replace("°C", "").replace(",", ".").strip())
             return int(temp.replace("°C", "").replace(",", ".").strip())
         except ValueError:
             return None    
     
     def ip_address(self):
 
-        for i in range(10):
-            text = xbmc.getInfoLabel("Network.IPAddress")
-            xbmc.sleep(200)
+        text = get_info_label("Network.IPAddress")
 
         if not text:
             return self.last_ip
@@ -238,7 +234,7 @@ class SystemInfo:
 
     def resolution(self):
 
-        text = xbmc.getInfoLabel("System.ScreenResolution")
+        text = get_info_label("System.ScreenResolution")
 
         if KODI_NOT_AVAILABLE in text:
             return None
@@ -246,27 +242,25 @@ class SystemInfo:
         if not text:
 
             if self.last_res is None:
-                return None
-            text = self.last_res
+                return None           
+            return self.last_res
         
         elif KODI_BUSY in text:
             if self.last_res is None:
                 return None
-            text = self.last_res
+            return self.last_res
 
-        else:
-    
-            vorher, trenner, nachher = text.partition("Hz")
+        else:   
+            vorher, trenner, _ = text.partition("Hz")
             neuer_text = vorher + trenner
-            self.last_res = neuer_text    
+
+        self.last_res = neuer_text        
 
         return neuer_text
 
     def os_version(self):
-
-        for i in range(10):
-            text = xbmc.getInfoLabel("System.OSVersionInfo")
-            xbmc.sleep(200)
+        
+        text = get_info_label("System.OSVersionInfo")
 
         if KODI_NOT_AVAILABLE in text:
             return None
@@ -275,22 +269,23 @@ class SystemInfo:
 
             if self.last_os is None:
                 return None
-            text = self.last_os
+            return self.last_os
         
         elif KODI_BUSY in text:
             if self.last_os is None:
                 return None
-            text = self.last_os
+            return self.last_os
 
         else:
             neuer_text = re.sub(r'\s*\(.*?\)', '', text)          
             self.last_os = neuer_text       
          
+        self.last_os = neuer_text
         return neuer_text
 
     def disk_space(self):
 
-        text = xbmc.getInfoLabel("System.FreeSpace")
+        text = get_info_label("System.FreeSpace")
  
         if KODI_NOT_AVAILABLE in text:
             return None
@@ -315,10 +310,8 @@ class SystemInfo:
 
     def uptime(self):
         
-        for i in range(10):
-            text = xbmc.getInfoLabel("System.Uptime")
-            xbmc.sleep(200)
-
+        text = get_info_label("System.Uptime")
+ 
         seconds = parse_uptime(text)
 
         if seconds is not None:
@@ -342,9 +335,7 @@ class SystemInfo:
 
     def uptime_total(self):
         
-        for i in range(10):
-            text = xbmc.getInfoLabel("System.TotalUptime")
-            xbmc.sleep(200)
+        text = get_info_label("System.TotalUptime")
 
         seconds = parse_uptime(text)
 
