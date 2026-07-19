@@ -1,12 +1,3 @@
-import json
-import xbmc
-
-from constants import (
-    KODI_NOT_AVAILABLE,
-)
-
-from logger import log
-
 def publish_discovery(mqtt, ADDON, device_info, data):
     sensors = {
         "cpu": (ADDON.getLocalizedString(30101), "%", None, None, "mdi:cpu-64-bit", None),
@@ -23,18 +14,12 @@ def publish_discovery(mqtt, ADDON, device_info, data):
         "disk_space": (ADDON.getLocalizedString(30112), "GB", None, "diagnostic", "mdi:harddisk", None),
     }
     
-    for key, (name, unit, device_class, entity_category, icon, suggested_unit) in sensors.items():
+    for key, (name, unit, device_class, entity_category, icon, suggested_display_precision) in sensors.items():
 
-        if key == "disk_space" and data[key] == 0:
+        if data[key] is None:
             continue
 
-        if key == "cpu_frequency" and data[key] == 0:
-            continue
-
-        if key == "cpu_temperature" and data[key] == None:
-            continue
-
-        if key == "gpu_temperature" and data[key] == None:
+        if key in ("disk_space", "cpu_frequency") and data[key] == 0:
             continue
 
         topic = f"homeassistant/sensor/{mqtt.device_id}_{key}/config"
@@ -54,8 +39,8 @@ def publish_discovery(mqtt, ADDON, device_info, data):
             }
         }
 
-        if suggested_unit:
-            payload["suggested_display_precision "] = suggested_unit
+        if suggested_display_precision:
+            payload["suggested_display_precision"] = suggested_display_precision
 
         if icon:
             payload["icon"] = icon

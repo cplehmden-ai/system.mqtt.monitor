@@ -147,28 +147,21 @@ class SystemInfo:
         return int(float(text))
 
     def cpu_frequency(self):
-        
+
         text = get_info_label("System.CpuFrequency")
-        
+
         if not text:
-            if self.last_freq is None:
-                return None
-            text = self.last_freq
+            return self.last_freq
 
-        elif KODI_BUSY in text:
-            if self.last_freq is None:
-                return None
-            text = self.last_freq
-
-        else:
-            self.last_freq = text
+        if KODI_BUSY in text:
+            return self.last_freq
 
         value = float(text.replace("MHz", "").replace(",", ".").strip())
-        
+
         self.last_freq = round(value / 1000, 1)
+        self.cache.set("cpu_frequency", self.last_freq)
 
-        return round(value / 1000, 1)
-
+        return self.last_freq
   
     def cpu_temperature(self):
         
@@ -229,6 +222,7 @@ class SystemInfo:
 
         if "." in text:
             self.last_ip = text
+            self.cache.set("ip_address", text)
 
         return self.last_ip
 
@@ -281,6 +275,7 @@ class SystemInfo:
             self.last_os = neuer_text       
          
         self.last_os = neuer_text
+        self.cache.set("os_version", neuer_text)
         return neuer_text
 
     def disk_space(self):
@@ -305,7 +300,7 @@ class SystemInfo:
             neuer_text = re.sub(r'[^0-9.,]', '', text)            
             self.last_disk = neuer_text     
          
-        return round(int(neuer_text)/1024,1)
+        return round(float(neuer_text)/1024,1)
 
 
     def uptime(self):
@@ -354,6 +349,8 @@ class SystemInfo:
         
         if self.last_uptime_total is not None:
             timestr = self.last_uptime_total
+            
+        self.cache.set("uptime_total", timestr / 86400)
 
         return round(timestr / 86400, 5)
 

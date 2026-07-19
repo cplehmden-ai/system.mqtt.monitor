@@ -23,14 +23,16 @@ class Cache:
         try:
             with open(self.filename, "r", encoding="utf-8") as f:
                 self.data = json.load(f)
-        except Exception:
+        except Exception as e:
+            log(f"Cache load failed: {e}", debug=True)
             self.data = {}
 
     def save(self):
         try:
             with open(self.filename, "w", encoding="utf-8") as f:
                 json.dump(self.data, f, indent=4)
-        except Exception:
+        except Exception as e:
+            log(f"Cache save failed: {e}", debug=True)
             pass
 
 

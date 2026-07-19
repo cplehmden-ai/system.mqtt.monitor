@@ -2,8 +2,6 @@ import xbmc
 import json
 import re
 import paho.mqtt.client as mqtt
-import xbmcaddon
-import re
 
 from logger import log
 
@@ -35,13 +33,11 @@ class MQTTClient:
     def __init__(self, addon):
         self.addon = addon
 
-        version = xbmcaddon.Addon().getAddonInfo('version')
-        if not version:
-            version = ""
+        version = addon.getAddonInfo("version") or ""
 
         # Einstellungen
         self.host = addon.getSetting("mqtt_host")
-        self.port = int(addon.getSetting("mqtt_port"))
+        self.port = self._get_int("mqtt_port", 1883)
         self.username = addon.getSetting("mqtt_user")
         self.password = addon.getSetting("mqtt_pass")
 
@@ -57,12 +53,8 @@ class MQTTClient:
         if not device_model:
             device_model = "Unknown"
 
-        sw = xbmc.getInfoLabel("System.BuildVersionShort")
-        if not sw:
-            sw = ""
-        
+        sw = xbmc.getInfoLabel("System.BuildVersionShort") or ""
         sw_version = f"Kodi {sw} - Addon {version}"
-
 
         self.device_name = device_name
         self.device_id = make_device_id(device_name)
@@ -78,7 +70,7 @@ class MQTTClient:
     def _get_int(self, key, default):
         try:
             return int(self.addon.getSetting(key))
-        except Exception:
+        except (ValueError, TypeError):
             return default
 
     def connect(self):
@@ -89,10 +81,10 @@ class MQTTClient:
             # online melden
             self.publish(f"{self.prefix}/availability", "online", retain=True)
 
-            xbmc.log("MQTT connected", xbmc.LOGINFO)
+            log("MQTT connected")
             return True
         except Exception as e:
-            xbmc.log(f"MQTT connect failed: {e}", xbmc.LOGERROR)
+            log(f"MQTT connect failed: {e}", debug=True)
             return False
 
     def disconnect(self):
@@ -100,9 +92,9 @@ class MQTTClient:
             self.publish(f"{self.prefix}/availability", "offline", retain=True)
             self.client.loop_stop()
             self.client.disconnect()
-            xbmc.log("MQTT disconnected", xbmc.LOGINFO)
+            log("MQTT disconnected")
         except Exception as e:
-            xbmc.log(f"MQTT disconnect error: {e}", xbmc.LOGERROR)
+            log(f"MQTT disconnect error: {e}", debug=True)
 
     def publish(self, topic, payload, retain=False):
         try:
@@ -119,7 +111,7 @@ class MQTTClient:
                 retain=retain
             )
         except Exception as e:
-            xbmc.log(f"MQTT publish error ({topic}): {e}", xbmc.LOGERROR)
+            log(f"MQTT publish error ({topic}): {e}", debug=True)
 
     def publish_states(self, data):
         """
