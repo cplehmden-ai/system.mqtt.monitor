@@ -1,8 +1,8 @@
-# MQTT Monitor for Kodi
+# System MQTT Monitor for Kodi
 
 A Kodi service addon that collects system information and publishes it via MQTT for automatic integration into Home Assistant.
 
-MQTT Monitor uses Home Assistant MQTT Discovery to automatically create the Kodi device and its available sensors in Home Assistant.
+System MQTT Monitor uses Home Assistant MQTT Discovery to automatically create the Kodi device and its available sensors in Home Assistant.
 
 ## Features
 
@@ -20,7 +20,7 @@ MQTT Monitor uses Home Assistant MQTT Discovery to automatically create the Kodi
 
 ## Home Assistant
 
-MQTT Monitor automatically creates a Home Assistant device using MQTT Discovery.
+System MQTT Monitor automatically creates a Home Assistant device using MQTT Discovery.
 
 The available sensors are dynamically determined based on the information provided by Kodi and the underlying operating system.
 
@@ -32,17 +32,19 @@ Each Kodi installation is represented as a separate device in Home Assistant.
 
 The available sensors depend on the underlying system. On this Windows system, CPU and GPU temperature information is not available.
 
-![MQTT Monitor on Windows](docs/home-assistant-windows.png)
+<img width="1920" height="1080" alt="Win11" src="https://github.com/user-attachments/assets/5d5f4f4e-237a-4e02-8116-9c639b2bceaf" />
+
 
 ### Raspberry Pi
 
-On this Raspberry Pi, CPU and GPU temperature information is available. The operating system is automatically detected and represented with the appropriate Linux icon.
+On this Raspberry Pi, CPU and GPU temperature information is available but teh disk space is not available. The operating system is automatically detected and represented with the appropriate Linux icon.
 
-![MQTT Monitor on Raspberry Pi](docs/home-assistant-raspberry-pi.png)
+<img width="1920" height="1080" alt="Pi5" src="https://github.com/user-attachments/assets/f79c6db2-cb52-41cc-b434-43cdd03bc53a" />
+
 
 ## Available Sensors
 
-MQTT Monitor can provide the following information to Home Assistant:
+System MQTT Monitor can provide the following information to Home Assistant:
 
 - CPU usage
 - CPU frequency
@@ -63,20 +65,20 @@ The actual sensors available in Home Assistant depend on the information provide
 
 ### Kodinerds Repository
 
-The recommended way to install MQTT Monitor is through the Kodinerds Addon Repository.
+The recommended way to install System MQTT Monitor is through the Kodinerds Addon Repository.
 
 If the repository is not already installed:
 
 1. Open the [Kodinerds Addon Repository](https://repo.kodinerds.net/index.php).
 2. Download the repository ZIP file.
 3. Install the repository in Kodi.
-4. Install **MQTT Monitor** from the Kodinerds Repository.
+4. Install **System MQTT Monitor** from the Kodinerds Repository.
 
 Once installed through the repository, Kodi can automatically update the addon when a new version becomes available.
 
 ### Manual Installation
 
-Alternatively, MQTT Monitor can be installed manually from a ZIP file.
+Alternatively, System MQTT Monitor can be installed manually from a ZIP file. You can download it here under "release"
 
 ## Configuration
 
@@ -100,11 +102,11 @@ The configured device name is used to generate the MQTT topics and the Home Assi
 - An MQTT broker
 - Home Assistant with MQTT integration
 
-MQTT Monitor has been tested with Mosquitto and Home Assistant.
+System MQTT Monitor has been tested with Mosquitto and Home Assistant.
 
 ## Tested Platforms
 
-MQTT Monitor has been tested on:
+System MQTT Monitor has been tested on:
 
 - LibreELEC
 - CoreELEC
