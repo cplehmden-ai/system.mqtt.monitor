@@ -61,10 +61,10 @@ def parse_uptime(text):
     return total
 
 class SystemInfo:
-    def __init__(self, addon, cache):
+    def __init__(self, ADDON, cache):
         self.prev_idle = 0
         self.prev_total = 0
-        self.addon = addon
+        self.addon = ADDON
         self.cache = cache
         self.last_ip = cache.get("ip_address")
         self.last_os = cache.get("os_version")
@@ -378,13 +378,20 @@ class SystemInfo:
 
         return "mdi:desktop-classic"  
 
-    def collect_device_info(self, addon):
-        return {
-            "manufacturer": addon.getSetting("device_manufacturer"),
-            "model": addon.getSetting("device_model"),
-            "sw_version": get_info_label("System.BuildVersionShort"),
-            "os_icon": self.os_icon(),        }
+#    def collect_device_info(self, addon):
+#        return {
+#            "manufacturer": addon.getSetting("device_manufacturer"),
+#            "model": addon.getSetting("device_model"),
+#            "sw_version": get_info_label("System.BuildVersionShort"),
+#            "os_icon": self.os_icon(),        }
 
+    def collect_device_info(self):
+        return {
+            "manufacturer": self.addon.getSetting("device_manufacturer"),
+            "model": self.addon.getSetting("device_model"),
+            "sw_version": get_info_label("System.BuildVersionShort"),
+            "os_icon": self.os_icon(),
+        }
     def collect(self):
         return {
             "cpu": self.cpu_load(),

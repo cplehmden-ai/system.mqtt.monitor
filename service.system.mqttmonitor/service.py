@@ -18,19 +18,14 @@ cache = Cache()
 
 monitor = xbmc.Monitor()
     
-def get_int_setting(id, default):
+def get_int_setting(setting_id, default):
     try:
-        return int(ADDON.getSetting(id))
+        return int(ADDON.getSetting(setting_id))
     except (ValueError, TypeError):
         return default
 
 def main():
     log("MQTTMonitor starting")
-
-#    for i in range(10):
-#        text = xbmc.getInfoLabel("System.CpuFrequency")
-#        log(f"{i}: {text}", debug=True)
-#        xbmc.sleep(200)
 
     # Give Kodi enough time to initialize InfoLabels
     if monitor.waitForAbort(10):
@@ -39,7 +34,7 @@ def main():
     mqtt = MQTTClient(ADDON)
     sysinfo = SystemInfo(ADDON, cache)
     
-    device_info = sysinfo.collect_device_info(ADDON)
+    device_info = sysinfo.collect_device_info()
     data = sysinfo.collect()
     sysinfo.test_labels()
 
@@ -49,14 +44,14 @@ def main():
 
     publish_discovery(mqtt, ADDON, device_info, data)
 
-    INTERVAL = get_int_setting("interval", 30)
+    interval = get_int_setting("interval", 30)
 
     while not monitor.abortRequested():
         data = sysinfo.collect()
         mqtt.publish_states(data)
         sysinfo.test_labels()
         
-        if monitor.waitForAbort(INTERVAL):
+        if monitor.waitForAbort(interval):
             break
 
     mqtt.disconnect()

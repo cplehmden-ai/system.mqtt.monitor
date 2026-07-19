@@ -84,7 +84,7 @@ class MQTTClient:
             log("MQTT connected")
             return True
         except Exception as e:
-            log(f"MQTT connect failed: {e}", debug=True)
+            log(f"MQTT connect failed: {e}")
             return False
 
     def disconnect(self):
@@ -94,7 +94,7 @@ class MQTTClient:
             self.client.disconnect()
             log("MQTT disconnected")
         except Exception as e:
-            log(f"MQTT disconnect error: {e}", debug=True)
+            log(f"MQTT disconnect error: {e}")
 
     def publish(self, topic, payload, retain=False):
         try:
@@ -111,7 +111,7 @@ class MQTTClient:
                 retain=retain
             )
         except Exception as e:
-            log(f"MQTT publish error ({topic}): {e}", debug=True)
+            log(f"MQTT publish error ({topic}): {e}")
 
     def publish_states(self, data):
         """
