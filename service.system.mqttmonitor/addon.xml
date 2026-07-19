@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon id="service.system.mqttmonitor"
        name="System MQTT Monitor"
-       version="1.0.4"
+       version="1.0.4.0"
        provider-name="Lehmden">
 
     <requires>
