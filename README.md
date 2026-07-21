@@ -37,7 +37,7 @@ The available sensors depend on the underlying system. On this Windows system, C
 
 ### Raspberry Pi
 
-On this Raspberry Pi, CPU and GPU temperature information is available but teh disk space is not available. The operating system is automatically detected and represented with the appropriate Linux icon.
+On this Raspberry Pi, CPU and GPU temperature information is available but the disk space is not available. The operating system is automatically detected and represented with the appropriate Linux icon.
 
 <img width="1920" height="1080" alt="Pi5" src="https://github.com/user-attachments/assets/f79c6db2-cb52-41cc-b434-43cdd03bc53a" />
 
