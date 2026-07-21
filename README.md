@@ -116,7 +116,7 @@ The available sensors depend on the information provided by Kodi and the underly
 
 ## Development
 
-MQTT Monitor uses Kodi's InfoLabel interface to collect system information and publishes the results via MQTT.
+System MQTT Monitor uses Kodi's InfoLabel interface to collect system information and publishes the results via MQTT.
 
 The addon does not directly access or modify the Kodi database.
 
